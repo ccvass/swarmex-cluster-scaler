@@ -1,0 +1,7 @@
+swarmex-cluster-scaler
+*.exe
+*.test
+*.out
+REMOTE.md
+AGENTS.md
+.kiro/

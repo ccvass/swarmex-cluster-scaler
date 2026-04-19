@@ -1,0 +1,60 @@
+# Swarmex Cluster Scaler Configuration
+# Mount this file at /etc/swarmex/cluster-scaler.yaml
+
+# Swarm join credentials
+swarm_token: "SWMTKN-1-xxxxx"
+manager_ip: "10.0.0.1"
+
+# Scaling thresholds
+min_nodes: 2          # Never fewer than 2 workers
+max_nodes: 10         # Never more than 10 total nodes
+scale_up_cpu: 80      # Add node when cluster CPU > 80%
+scale_down_cpu: 20    # Remove node when cluster CPU < 20%
+eval_interval: "30s"  # Check every 30 seconds
+cooldown_up: "5m"     # Wait 5 min after adding a node
+cooldown_down: "10m"  # Wait 10 min after removing a node
+prometheus_url: "http://observability_prometheus:9090"
+
+# Configure one or more providers.
+# If multiple are configured, nodes are provisioned round-robin.
+providers:
+
+  # Amazon Web Services
+  aws:
+    region: "us-east-1"
+    key_name: "my-key"
+    security_group: "sg-xxxxxxxx"
+    subnet_id: "subnet-xxxxxxxx"
+    template:
+      instance_type: "t3.large"
+      image: "ami-0abcdef1234567890"   # Ubuntu 24.04 AMI
+      disk_gb: 30
+
+  # Google Cloud Platform
+  # gcp:
+  #   project: "my-project"
+  #   zone: "us-central1-a"
+  #   template:
+  #     instance_type: "e2-medium"
+  #     image: "ubuntu-2404-lts-amd64"
+  #     disk_gb: 30
+
+  # Microsoft Azure
+  # azure:
+  #   resource_group: "swarmex-rg"
+  #   location: "eastus"
+  #   vnet: "swarmex-vnet"
+  #   subnet: "default"
+  #   template:
+  #     instance_type: "Standard_B2s"
+  #     image: "Canonical:ubuntu-24_04-lts:server:latest"
+  #     disk_gb: 30
+
+  # DigitalOcean
+  # digitalocean:
+  #   region: "nyc1"
+  #   ssh_key_id: "12345678"
+  #   template:
+  #     instance_type: "s-2vcpu-4gb"
+  #     image: "ubuntu-24-04-x64"
+  #     disk_gb: 50
